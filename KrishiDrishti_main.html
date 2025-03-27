@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HydroPlan Pro - Hydroponic Farming Planner</title>
+    <title>HydroPlan Pro - Hydroponic Farming Planner with AR</title>
     <style>
         :root {
             --primary: #00a896;
@@ -194,92 +194,139 @@
         .icon {
             font-size: 1.2rem;
         }
+        
+        .ar-container {
+            margin: 2rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .tab-container {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            background: #eee;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>HydroPlan Pro <span class="subtitle">Hydroponic Farming Planner</span></h1>
+        <h1>HydroPlan Pro <span class="subtitle">Hydroponic Farming Planner with AR</span></h1>
     </header>
 
-    <div class="form-container">
-        <form id="hydroForm">
-            <div class="form-grid">
-                <div class="form-group">
-                    <label>System Size</label>
-                    <select id="systemSize" required>
-                        <option value="">Select system size</option>
-                        <option value="small">Small (4x8 ft)</option>
-                        <option value="medium">Medium (8x16 ft)</option>
-                        <option value="large">Large (16x32 ft)</option>
-                        <option value="custom">Custom Size</option>
-                    </select>
-                </div>
+    <div class="tab-container">
+        <button class="tab active" onclick="openTab('planner')">Planning Tool</button>
+        <button class="tab" onclick="openTab('ar')">AR Visualization</button>
+    </div>
 
-                <div class="form-group" id="customSizeGroup" style="display: none;">
-                    <label>Custom Dimensions (feet)</label>
-                    <div style="display: flex; gap: 1rem;">
-                        <input type="number" id="customLength" placeholder="Length">
-                        <input type="number" id="customWidth" placeholder="Width">
+    <div id="planner" class="tab-content active">
+        <div class="form-container">
+            <form id="hydroForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>System Size</label>
+                        <select id="systemSize" required>
+                            <option value="">Select system size</option>
+                            <option value="small">Small (4x8 ft)</option>
+                            <option value="medium">Medium (8x16 ft)</option>
+                            <option value="large">Large (16x32 ft)</option>
+                            <option value="custom">Custom Size</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="customSizeGroup" style="display: none;">
+                        <label>Custom Dimensions (feet)</label>
+                        <div style="display: flex; gap: 1rem;">
+                            <input type="number" id="customLength" placeholder="Length">
+                            <input type="number" id="customWidth" placeholder="Width">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Hydroponic System Type</label>
+                        <select id="systemType" required>
+                            <option value="">Select system type</option>
+                            <option value="nft">NFT (Nutrient Film Technique)</option>
+                            <option value="dwc">DWC (Deep Water Culture)</option>
+                            <option value="ebb">Ebb & Flow</option>
+                            <option value="aeroponics">Aeroponics</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Growing Environment</label>
+                        <select id="environment" required>
+                            <option value="">Select environment</option>
+                            <option value="indoor">Indoor</option>
+                            <option value="greenhouse">Greenhouse</option>
+                            <option value="outdoor">Outdoor</option>
+                        </select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Hydroponic System Type</label>
-                    <select id="systemType" required>
-                        <option value="">Select system type</option>
-                        <option value="nft">NFT (Nutrient Film Technique)</option>
-                        <option value="dwc">DWC (Deep Water Culture)</option>
-                        <option value="ebb">Ebb & Flow</option>
-                        <option value="aeroponics">Aeroponics</option>
-                    </select>
+                    <label>Select Hydroponic Crops</label>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="crop" value="lettuce"> Lettuce
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="crop" value="basil"> Basil
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="crop" value="spinach"> Spinach
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="crop" value="kale"> Kale
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="crop" value="strawberry"> Strawberry
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="crop" value="tomato"> Tomato
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="crop" value="pepper"> Pepper
+                        </label>
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="crop" value="cucumber"> Cucumber
+                        </label>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Growing Environment</label>
-                    <select id="environment" required>
-                        <option value="">Select environment</option>
-                        <option value="indoor">Indoor</option>
-                        <option value="greenhouse">Greenhouse</option>
-                        <option value="outdoor">Outdoor</option>
-                    </select>
-                </div>
-            </div>
+                <button type="submit">Generate Hydroponic Plan →</button>
+            </form>
+        </div>
 
-            <div class="form-group">
-                <label>Select Hydroponic Crops</label>
-                <div class="checkbox-grid">
-                    <label class="checkbox-option">
-                        <input type="checkbox" name="crop" value="lettuce"> Lettuce
-                    </label>
-                    <label class="checkbox-option">
-                        <input type="checkbox" name="crop" value="basil"> Basil
-                    </label>
-                    <label class="checkbox-option">
-                        <input type="checkbox" name="crop" value="spinach"> Spinach
-                    </label>
-                    <label class="checkbox-option">
-                        <input type="checkbox" name="crop" value="kale"> Kale
-                    </label>
-                    <label class="checkbox-option">
-                        <input type="checkbox" name="crop" value="strawberry"> Strawberry
-                    </label>
-                    <label class="checkbox-option">
-                        <input type="checkbox" name="crop" value="tomato"> Tomato
-                    </label>
-                    <label class="checkbox-option">
-                        <input type="checkbox" name="crop" value="pepper"> Pepper
-                    </label>
-                    <label class="checkbox-option">
-                        <input type="checkbox" name="crop" value="cucumber"> Cucumber
-                    </label>
-                </div>
-            </div>
-
-            <button type="submit">Generate Hydroponic Plan →</button>
-        </form>
+        <div class="results-container" id="result"></div>
     </div>
 
-    <div class="results-container" id="result"></div>
+    <div id="ar" class="tab-content">
+        <div class="ar-container">
+            <iframe src="https://mywebar.com/p/Project_3_t7zd22rulz" frameborder="0" scrolling="yes" seamless="seamless" style="display:block; width:100%; height:100vh;" allow="camera;gyroscope;accelerometer;magnetometer;xr-spatial-tracking;microphone;"></iframe>
+        </div>
+    </div>
 
     <script>
         const hydroData = {
@@ -419,6 +466,10 @@
                         <li>Lighting: ${calculateLighting(area, environment)}</li>
                     </ul>
                 </div>
+                
+                <div style="margin-top: 2rem; text-align: center;">
+                    <button onclick="openTab('ar')">View in AR</button>
+                </div>
             `;
 
             function calculatePumpSize(area, systemType) {
@@ -437,6 +488,24 @@
                 return `${watts}W LED grow lights (full spectrum)`;
             }
         });
+        
+        function openTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            // Remove active class from all tabs
+            const tabs = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            // Show the selected tab and mark its button as active
+            document.getElementById(tabName).classList.add('active');
+            document.querySelector(`.tab[onclick="openTab('${tabName}')"]`).classList.add('active');
+        }
     </script>
 </body>
 </html>
